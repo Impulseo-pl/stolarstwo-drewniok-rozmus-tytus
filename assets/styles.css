@@ -1427,14 +1427,16 @@ footer{view-transition-name:mt-foot}
 }
 
 
-/* === auto-paleta z marki klienta (źródło: bank palet (skórka dawała brąz)) === */
-:root{--accent:#477598;--accent-d:#336183;--accent-soft:rgba(71,117,152,0.10);--paper:#F9FAFB;--paper-2:#EEF0F2;--paper-3:#E4E6E8;--ink:#1E2123;--ink-soft:#45484A;--muted:#7A7C7E;--line:rgba(30,33,35,.12);}
+/* === auto-paleta z marki klienta === */
+/* 13.08.2026: automatyczny błękit #477598 i prawie biel #F9FAFB WYCOFANE na życzenie
+   klientki - całość jedzie teraz na ciepłej palecie z bloku na końcu pliku. */
+:root{--accent:#59604A;--accent-d:#454B37;--accent-soft:rgba(89,96,74,0.10);--paper:#F3EFE5;--paper-2:#E9E3D5;--paper-3:#DFD8C8;--ink:#2B2A24;--ink-soft:#4A4739;--muted:#635F52;--line:rgba(184,177,165,.6);}
 .btn-accent{color:#fff}
 .nav .nav-links a.btn-accent{color:#fff}
 .btn-accent[data-accent-d],.cta-d .btn-accent{color:#fff}
 
 /* === szary tekst dociągnięty do czytelności (WCAG 4.5 na wszystkich tłach) === */
-:root{--muted:#666768;}
+:root{--muted:#635F52;}
 
 /* ============================================================
    PASEK GÓRNY I PRZYCISKI - zgłoszenie Agaty 13.08.2026
@@ -1484,3 +1486,53 @@ footer{view-transition-name:mt-foot}
 @media (prefers-reduced-motion:reduce){
   .nav.nav-hidden{transform:none}                   /* bez ruchu = pasek po prostu zostaje */
 }
+
+/* ============================================================
+   PALETA CIEPŁA - zgłoszenie Agaty 13.08.2026
+   „zamiast bieli postaw na bezowy" + kolory wskazane przez klientkę:
+   oliwkowy #59604A, krem #F3EFE5, naturalny brąz #92745C, ciepły szary #B8B1A5.
+   Krem ma być PRAWIE biały - jasny, ale bez ostrej bieli („chamski biały").
+   Blok celowo na SAMYM KOŃCU pliku: musi wygrywać z blokiem auto-palety wyżej
+   (ten dawał chłodny błękit #477598 i prawie białe tło #F9FAFB).
+   Kontrasty policzone: tekst 12,5:1 · tekst poboczny 4,5-5,6:1 · biały na
+   oliwkowym 6,6:1 · biały na stopce 12,9:1 - wszystko ponad normą WCAG.
+   ============================================================ */
+:root{
+  /* TŁA - krem zamiast bieli */
+  --paper:#F3EFE5;            /* główne tło strony (krem z palety) */
+  --paper-2:#E9E3D5;          /* sekcje alternatywne: zaufanie, manifest, CTA */
+  --paper-3:#DFD8C8;          /* delikatne wypełnienia */
+  --card:#FBF8F1;             /* dawne białe karty - krem prawie biały */
+
+  /* TEKST - ciepły grafit zamiast chłodnego */
+  --ink:#2B2A24;
+  --ink-soft:#4A4739;
+  --muted:#635F52;            /* 4,99:1 nawet na najciemniejszym kremie */
+
+  /* AKCENTY z palety klientki */
+  --accent:#59604A;           /* oliwkowy - przyciski, linki, podkreślenia */
+  --accent-d:#454B37;         /* oliwkowy ciemniejszy - hover */
+  --accent-soft:rgba(89,96,74,.10);
+  --brown:#92745C;            /* naturalny brąz - detale, kreski nad kartami */
+  --warm:#B8B1A5;             /* ciepły szary - linie, ramki */
+
+  --line:rgba(184,177,165,.6);/* hairline z ciepłego szarego */
+  --dark:#2F3327;             /* sekcje ciemne: pasek haseł, stopka - głęboka oliwka */
+
+  /* CIENIE ocieplone (były chłodne, niebieskawe - kłóciły się z kremem) */
+  --sh-sm:0 1px 2px rgba(74,62,45,.05), 0 2px 8px rgba(74,62,45,.06);
+  --sh-md:0 2px 6px rgba(74,62,45,.06), 0 12px 28px -8px rgba(74,62,45,.14);
+  --sh-lg:0 6px 14px rgba(74,62,45,.08), 0 26px 56px -18px rgba(74,62,45,.24);
+}
+
+/* Karty, formularz i plakietka - miały wbite #fff, stąd „chamska" biel mimo zmiany tła */
+.svc,
+.trust-card,
+.form,
+.btn-light,
+.form input:focus,
+.form textarea:focus{background:var(--card)}
+.hero-badge{background:rgba(251,248,241,.94)}
+
+/* brąz z palety jako drugi kolor - kreska nad kartami zaufania */
+.trust-card{border-top-color:var(--brown)}
