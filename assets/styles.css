@@ -1585,3 +1585,47 @@ footer{view-transition-name:mt-foot}
 .btn-ghost:focus-visible{border-color:var(--accent);color:var(--accent)}
 .cta .btn-ghost-cta:hover,
 .cta .btn-ghost-cta:focus-visible{border-color:var(--accent);color:var(--accent)}
+
+/* ============================================================
+   WSZYSTKIE KLOCKI = DOKŁADNIE TA SAMA ANIMACJA CO CTA „Zapytaj o wycenę"
+   Z PASKA GÓRNEGO - drugie zgłoszenie Agaty 13.08.2026.
+   Poprzednia poprawka wyrównała sam RUCH (klocki przestały skakać), ale
+   REAKCJA NA KURSOR nadal zależała od odmiany przycisku:
+     · wypełnione („Zobacz realizacje", „Pełna galeria", „Zadzwoń...") ciemniały,
+     · obrysowane („Poznaj nas", „Zapytaj o wycenę" na zdjęciu, telefon w pasku CTA)
+       zmieniały tylko kolor kreski i napisu - czyli robiły co innego,
+     · klocek w hero miał kolory wpisane w atrybut style, który przebijał hover,
+       więc praktycznie nie reagował wcale.
+   Teraz KAŻDY klocek na całej stronie zachowuje się identycznie jak ten z paska:
+   stoi w miejscu, wypełnia się oliwką, napis biały, dookoła delikatna obwódka
+   i miękki cień - w tym samym, wolnym tempie (--cta-dur).
+   Blok celowo na SAMYM KOŃCU pliku: musi wygrywać z regułami odmian wyżej.
+   ============================================================ */
+
+/* spoczynek klocka obrysowanego na ciemnym zdjęciu (było w atrybucie style) */
+.btn-on-dark{color:#fff;border-color:rgba(255,255,255,.45)}
+
+/* JEDEN stan „kursor na klocku" dla wszystkich odmian i wszystkich sekcji */
+.btn:hover,
+.btn:focus-visible,
+.btn-on-dark:hover,
+.btn-on-dark:focus-visible,
+.cta .btn:hover,
+.cta .btn:focus-visible,
+.nav .nav-links a.btn:hover,
+.nav .nav-links a.btn:focus-visible,
+.sticky-reserve a:hover,
+.sticky-reserve a:focus-visible{
+  background:var(--accent-d);
+  border-color:var(--accent-d);
+  color:#fff;
+  filter:brightness(1.1);
+  box-shadow:0 0 0 3px var(--accent-soft),0 8px 20px -14px rgba(0,0,0,.5);
+  transform:none;
+  translate:0 0;
+}
+/* strzałka i ikona telefonu idą za kolorem napisu, więc też robią się białe */
+.btn:hover .arr,
+.btn:focus-visible .arr,
+.sticky-reserve a:hover .ico-tel,
+.sticky-reserve a:focus-visible .ico-tel{color:#fff;transform:none}
