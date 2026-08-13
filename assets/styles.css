@@ -1435,3 +1435,52 @@ footer{view-transition-name:mt-foot}
 
 /* === szary tekst dociągnięty do czytelności (WCAG 4.5 na wszystkich tłach) === */
 :root{--muted:#666768;}
+
+/* ============================================================
+   PASEK GÓRNY I PRZYCISKI - zgłoszenie Agaty 13.08.2026
+   1) CTA reaguje na kursor WOLNIEJ (podświetlenie zamiast szarpnięcia),
+   2) pasek nawigacji chowa się przy przewijaniu w dół,
+   3) CTA w pasku górnym w ogóle się nie rusza - tylko delikatnie rozjaśnia.
+   Blok celowo na KOŃCU pliku: ma wygrywać z regułami bazowymi wyżej.
+   ============================================================ */
+:root{
+  --cta-dur:.72s;                                   /* było ~.25s - stąd wrażenie „szarpania" */
+  --cta-ease:cubic-bezier(.16,.84,.44,1);
+}
+
+/* 1) spokojniejsze przejścia na wszystkich przyciskach */
+.btn{
+  transition:transform var(--cta-dur) var(--cta-ease),
+             box-shadow var(--cta-dur) var(--cta-ease),
+             background var(--cta-dur) var(--cta-ease),
+             border-color var(--cta-dur) var(--cta-ease),
+             color var(--cta-dur) var(--cta-ease),
+             filter var(--cta-dur) var(--cta-ease);
+}
+.btn .arr{transition:transform var(--cta-dur) var(--cta-ease)}
+/* magnetyczne CTA w treści: dochodzi do kursora płynnie, zamiast skakać klatka w klatkę */
+.btn.mt-mag{transition:transform var(--cta-dur) var(--cta-ease),
+                       box-shadow var(--cta-dur) var(--cta-ease),
+                       background var(--cta-dur) var(--cta-ease),
+                       border-color var(--cta-dur) var(--cta-ease),
+                       color var(--cta-dur) var(--cta-ease),
+                       filter var(--cta-dur) var(--cta-ease),
+                       translate var(--cta-dur) var(--cta-ease)}
+
+/* 2) pasek nawigacji znika przy przewijaniu w dół, wraca przy przewijaniu w górę */
+.nav{transition:box-shadow .4s ease,background .4s ease,transform .42s var(--cta-ease)}
+.nav.nav-hidden{transform:translateY(-100%)}
+
+/* 3) CTA w pasku górnym: ZERO ruchu, samo podświetlenie */
+.nav .nav-links a.btn-accent,
+.nav .nav-links a.btn-accent:hover,
+.nav .nav-links a.btn-accent:active,
+.nav .nav-links a.btn-accent:focus-visible{transform:none;translate:0 0}
+.nav .nav-links a.btn-accent:hover{
+  filter:brightness(1.1);
+  box-shadow:0 0 0 3px var(--accent-soft),0 8px 20px -14px rgba(0,0,0,.5);
+}
+
+@media (prefers-reduced-motion:reduce){
+  .nav.nav-hidden{transform:none}                   /* bez ruchu = pasek po prostu zostaje */
+}

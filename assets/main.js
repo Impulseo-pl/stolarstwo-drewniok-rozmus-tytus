@@ -54,11 +54,27 @@
 })();
 
 // nav kondensuje się po przewinięciu (cienka linia + niższy pasek) — addytywne, lekkie
+// + CHOWANIE PASKA (zgłoszenie Agaty 13.08.2026): przy przewijaniu W DÓŁ pasek zjeżdża
+//   do góry i oddaje cały ekran treści, przy przewijaniu W GÓRĘ wraca od razu (klient nigdy
+//   nie zostaje bez menu). Na samej górze strony pasek jest zawsze widoczny.
 (function () {
   var nav = document.querySelector('.nav') || document.querySelector('header');
   if (!nav) return;
   var ticking = false;
-  function upd() { nav.classList.toggle('is-stuck', window.scrollY > 24); ticking = false; }
+  var ostatni = window.scrollY || 0;
+  var PROG = 140;      // dopóki jesteśmy przy górze, pasek zostaje
+  var LUZ = 6;         // ignorujemy drgania kilku pikseli (gładki scroll na Macu)
+  function upd() {
+    var y = window.scrollY || 0;
+    nav.classList.toggle('is-stuck', y > 24);
+    var otwarteMenu = document.querySelector('.nav-links.open');
+    if (otwarteMenu) { nav.classList.remove('nav-hidden'); }
+    else if (y <= PROG) { nav.classList.remove('nav-hidden'); }
+    else if (y - ostatni > LUZ) { nav.classList.add('nav-hidden'); }      // w dół → znika
+    else if (ostatni - y > LUZ) { nav.classList.remove('nav-hidden'); }   // w górę → wraca
+    if (Math.abs(y - ostatni) > LUZ) ostatni = y;
+    ticking = false;
+  }
   window.addEventListener('scroll', function () {
     if (!ticking) { ticking = true; requestAnimationFrame(upd); }
   }, { passive: true });
@@ -461,15 +477,24 @@
     }
   }
 
-  /* ---------- 5) MAGNETYCZNE CTA (tylko mysz, maks. 4 px) ---------- */
+  /* ---------- 5) MAGNETYCZNE CTA (tylko mysz) ----------
+     Zgłoszenie Agaty 13.08.2026: przycisk biegnący za kursorem „denerwuje".
+       - CTA w PASKU NAWIGACJI nie rusza się w ogóle (ma stać jak wmurowany,
+         reakcja na kursor = samo podświetlenie, patrz styles.css),
+       - CTA w treści rusza się WOLNIEJ i mniej (zakres 8/5 px → 4/3 px),
+         a dochodzenie do pozycji wygładza przejście z CSS (--cta-dur).
+     Bez JS przyciski po prostu stoją — nic się nie psuje. */
   function prepMagnetic() {
     if (!window.matchMedia || !window.matchMedia('(pointer: fine)').matches) return;
-    all('.btn-accent, .btn-light').slice(0, 12).forEach(function (b) {
+    all('.btn-accent, .btn-light').filter(function (b) {
+      return !b.closest('.nav');            // pasek na górze zostaje nieruchomy
+    }).slice(0, 12).forEach(function (b) {
+      b.classList.add('mt-mag');            // CSS nadaje płynne, wolne dochodzenie
       b.addEventListener('mousemove', function (ev) {
         var r = b.getBoundingClientRect();
         var dx = (ev.clientX - (r.left + r.width / 2)) / r.width;
         var dy = (ev.clientY - (r.top + r.height / 2)) / r.height;
-        b.style.translate = (dx * 8).toFixed(1) + 'px ' + (dy * 5).toFixed(1) + 'px';
+        b.style.translate = (dx * 4).toFixed(1) + 'px ' + (dy * 3).toFixed(1) + 'px';
       });
       b.addEventListener('mouseleave', function () { b.style.translate = '0 0'; });
     });
