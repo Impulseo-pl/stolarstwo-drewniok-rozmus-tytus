@@ -1699,3 +1699,26 @@ footer{view-transition-name:mt-foot}
 /* przycisk w pasku dostawał 4 px odstępu z reguły dla linków menu (bije .btn
    specyficznością), przez co napis kleił się do krawędzi klocka - lekcja 2026-08-06-012 */
 .nav .nav-links a.btn{padding:12px 20px}
+/* CTA w pasku brał tempo z reguły dla LINKÓW menu (.nav-links a jest silniejsza
+   od .btn), więc tło i obwódka przeskakiwały mu natychmiast, a w hero wchodziły
+   płynnie przez 0,72 s. Wygląd końcowy był ten sam - inna była ANIMACJA, czyli
+   dokładnie to, o co chodziło w zgłoszeniu. */
+.nav .nav-links a.btn{
+  transition:filter var(--cta-dur) var(--cta-ease),
+             box-shadow var(--cta-dur) var(--cta-ease),
+             background var(--cta-dur) var(--cta-ease),
+             border-color var(--cta-dur) var(--cta-ease),
+             color var(--cta-dur) var(--cta-ease)}
+/* karty brały tempo z warstwy ruchu (.mt-on .svc = 0,35-0,5 s), więc podświetlały
+   się szybciej niż przyciski - to samo zgłoszenie: „ta sama animacja" znaczy też
+   „to samo tempo", nie tylko ten sam kolor */
+.mt-on .svc,.mt-on .trust-card,.mt-on .card,
+.mt-on .menu-cat,.mt-on .prod-card,.mt-on .pak-card{
+  transition:box-shadow var(--cta-dur) var(--cta-ease),
+             border-color var(--cta-dur) var(--cta-ease),
+             filter var(--cta-dur) var(--cta-ease),
+             background var(--cta-dur) var(--cta-ease),
+             color var(--cta-dur) var(--cta-ease)}
+/* numer telefonu w wierszu kontaktowym zmieniał kolor natychmiast (0 s) - jedyne
+   miejsce, gdzie coś jeszcze „strzelało"; tempo takie samo jak wszędzie */
+.info-row a.val{transition:color var(--cta-dur) var(--cta-ease)}
