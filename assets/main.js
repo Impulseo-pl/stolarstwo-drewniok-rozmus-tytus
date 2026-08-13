@@ -477,27 +477,14 @@
     }
   }
 
-  /* ---------- 5) MAGNETYCZNE CTA (tylko mysz) ----------
-     Zgłoszenie Agaty 13.08.2026: przycisk biegnący za kursorem „denerwuje".
-       - CTA w PASKU NAWIGACJI nie rusza się w ogóle (ma stać jak wmurowany,
-         reakcja na kursor = samo podświetlenie, patrz styles.css),
-       - CTA w treści rusza się WOLNIEJ i mniej (zakres 8/5 px → 4/3 px),
-         a dochodzenie do pozycji wygładza przejście z CSS (--cta-dur).
-     Bez JS przyciski po prostu stoją — nic się nie psuje. */
+  /* ---------- 5) MAGNETYCZNE CTA - WYŁĄCZONE ----------
+     Zgłoszenie Agaty 13.08.2026 (drugie): wszystkie klocki mają mieć TĘ SAMĄ
+     animację co CTA „Zapytaj o wycenę" w pasku górnym, czyli stać w miejscu
+     i tylko się podświetlać. Magnes za kursorem to był ruch, więc znika.
+     Funkcja zostaje pusta (wywołanie niżej nic nie psuje), całość reakcji
+     na kursor robi teraz CSS - blok na końcu styles.css. */
   function prepMagnetic() {
-    if (!window.matchMedia || !window.matchMedia('(pointer: fine)').matches) return;
-    all('.btn-accent, .btn-light').filter(function (b) {
-      return !b.closest('.nav');            // pasek na górze zostaje nieruchomy
-    }).slice(0, 12).forEach(function (b) {
-      b.classList.add('mt-mag');            // CSS nadaje płynne, wolne dochodzenie
-      b.addEventListener('mousemove', function (ev) {
-        var r = b.getBoundingClientRect();
-        var dx = (ev.clientX - (r.left + r.width / 2)) / r.width;
-        var dy = (ev.clientY - (r.top + r.height / 2)) / r.height;
-        b.style.translate = (dx * 4).toFixed(1) + 'px ' + (dy * 3).toFixed(1) + 'px';
-      });
-      b.addEventListener('mouseleave', function () { b.style.translate = '0 0'; });
-    });
+    return;
   }
 
   /* ---------- 6) PASEK POSTĘPU (tylko gdy przeglądarka umie scroll-driven) ---------- */

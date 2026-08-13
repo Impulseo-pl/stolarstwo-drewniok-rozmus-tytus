@@ -1540,3 +1540,48 @@ footer{view-transition-name:mt-foot}
 
 /* brąz z palety jako drugi kolor - kreska nad kartami zaufania */
 .trust-card{border-top-color:var(--brown)}
+
+/* ============================================================
+   JEDNA ANIMACJA DLA WSZYSTKICH KLOCKÓW - zgłoszenie Agaty 13.08.2026
+   Wzorzec = CTA „Zapytaj o wycenę" z paska górnego: przycisk STOI
+   w miejscu, a na kursor reaguje samym podświetleniem (rozjaśnienie
+   + delikatna obwódka w kolorze akcentu). Żadnego unoszenia,
+   żadnego jeżdżenia strzałki, żadnego magnesu za kursorem.
+   Blok celowo na SAMYM KOŃCU pliku - ma wygrywać z regułami wyżej.
+   ============================================================ */
+.btn,
+.btn:hover,
+.btn:focus-visible,
+.btn:active,
+.sticky-reserve a,
+.sticky-reserve a:hover,
+.sticky-reserve a:active{
+  transform:none;
+  translate:0 0;
+}
+.btn,
+.sticky-reserve a{
+  transition:filter var(--cta-dur) var(--cta-ease),
+             box-shadow var(--cta-dur) var(--cta-ease),
+             background var(--cta-dur) var(--cta-ease),
+             border-color var(--cta-dur) var(--cta-ease),
+             color var(--cta-dur) var(--cta-ease);
+}
+/* strzałka w przycisku też stoi - ruch był drugą, osobną animacją */
+.btn .arr,
+.btn:hover .arr{transform:none}
+
+/* to samo podświetlenie na KAŻDYM klocku, niezależnie od odmiany */
+.btn:hover,
+.btn:focus-visible,
+.sticky-reserve a:hover,
+.sticky-reserve a:focus-visible{
+  filter:brightness(1.1);
+  box-shadow:0 0 0 3px var(--accent-soft),0 8px 20px -14px rgba(0,0,0,.5);
+}
+/* przyciski obrysowane (przezroczyste) - samo rozjaśnienie ich nie ruszy,
+   więc podświetlenie robi tu obwódka i tekst w kolorze akcentu */
+.btn-ghost:hover,
+.btn-ghost:focus-visible{border-color:var(--accent);color:var(--accent)}
+.cta .btn-ghost-cta:hover,
+.cta .btn-ghost-cta:focus-visible{border-color:var(--accent);color:var(--accent)}
