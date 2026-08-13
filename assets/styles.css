@@ -1672,10 +1672,19 @@ footer{view-transition-name:mt-foot}
   .card:hover,.svc:hover,.menu-cat:hover,.prod-card:hover,.pak-card:hover,
   .faq-item:hover,.obj-tile:hover,.gateway-txt:hover,.trust-card:hover,
   .op-google:hover,.op-google:focus-visible{
-    background:var(--card,var(--paper));
+    background:var(--accent-d);
     border-color:var(--accent-d);
+    color:#fff;
     filter:brightness(1.1);
     box-shadow:0 0 0 3px var(--accent-soft),0 8px 20px -14px rgba(0,0,0,.5)}
+  /* cała treść karty idzie za kolorem napisu - inaczej ciemny tekst zostaje
+     na ciemnej oliwce i karta robi się nieczytelna */
+  .card:hover *,.svc:hover *,.menu-cat:hover *,.prod-card:hover *,
+  .pak-card:hover *,.faq-item:hover *,.obj-tile:hover *,
+  .gateway-txt:hover *,.trust-card:hover *,.op-google:hover *{
+    color:#fff;border-color:rgba(255,255,255,.35)}
+  /* znak Google jest 4-kolorowy - jego nie przemalowujemy */
+  .op-google:hover .op-g-ico *{color:inherit}
 }
 
 /* 4) CTA w pasku górnym — wzorzec dla całej reszty, więc musi grać tak samo */
@@ -1687,3 +1696,6 @@ footer{view-transition-name:mt-foot}
 /* CTA w pasku to przycisk, nie link menu — podkreślenie rosnące spod linków
    przyklejało się do jego napisu (zgłaszała to też bramka wyglądu) */
 .nav-links a.btn::after{display:none}
+/* przycisk w pasku dostawał 4 px odstępu z reguły dla linków menu (bije .btn
+   specyficznością), przez co napis kleił się do krawędzi klocka - lekcja 2026-08-06-012 */
+.nav .nav-links a.btn{padding:12px 20px}
