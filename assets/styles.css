@@ -1732,3 +1732,18 @@ footer{view-transition-name:mt-foot}
 @media (prefers-reduced-motion:no-preference){
   .nav .nav-links a.btn:hover::after{translate:120% 0;transition:translate .75s var(--mt-ease,cubic-bezier(.16,.84,.44,1))}
 }
+/* karty dostają TEN SAM przelatujący błysk co przyciski - bramka animacji (13.08)
+   pokazała, że to ostatnia różnica: klocki reagowały tak samo, ale światło
+   przelatywało tylko po przyciskach */
+.card,.svc,.menu-cat,.prod-card,.pak-card,.trust-card,.gateway-txt{
+  position:relative;overflow:hidden;isolation:isolate}
+.card::after,.svc::after,.menu-cat::after,.prod-card::after,
+.pak-card::after,.trust-card::after,.gateway-txt::after{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(100deg,transparent 32%,rgba(255,255,255,.20) 50%,transparent 68%);
+  translate:-120% 0}
+@media (prefers-reduced-motion:no-preference){
+  .card:hover::after,.svc:hover::after,.menu-cat:hover::after,.prod-card:hover::after,
+  .pak-card:hover::after,.trust-card:hover::after,.gateway-txt:hover::after{
+    translate:120% 0;transition:translate .75s var(--mt-ease,cubic-bezier(.16,.84,.44,1))}
+}
