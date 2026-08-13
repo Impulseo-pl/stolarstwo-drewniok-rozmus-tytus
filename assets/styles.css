@@ -1430,7 +1430,7 @@ footer{view-transition-name:mt-foot}
 /* === auto-paleta z marki klienta === */
 /* 13.08.2026: automatyczny błękit #477598 i prawie biel #F9FAFB WYCOFANE na życzenie
    klientki - całość jedzie teraz na ciepłej palecie z bloku na końcu pliku. */
-:root{--accent:#59604A;--accent-d:#454B37;--accent-soft:rgba(89,96,74,0.10);--paper:#F3EFE5;--paper-2:#E9E3D5;--paper-3:#DFD8C8;--ink:#2B2A24;--ink-soft:#4A4739;--muted:#635F52;--line:rgba(184,177,165,.6);}
+:root{--accent:#59604A;--accent-d:#454B37;--accent-soft:rgba(89,96,74,0.10);--paper:#FAF7F0;--paper-2:#F3EFE5;--paper-3:#E9E3D5;--ink:#2B2A24;--ink-soft:#4A4739;--muted:#635F52;--line:rgba(184,177,165,.6);}
 .btn-accent{color:#fff}
 .nav .nav-links a.btn-accent{color:#fff}
 .btn-accent[data-accent-d],.cta-d .btn-accent{color:#fff}
@@ -1494,15 +1494,19 @@ footer{view-transition-name:mt-foot}
    Krem ma być PRAWIE biały - jasny, ale bez ostrej bieli („chamski biały").
    Blok celowo na SAMYM KOŃCU pliku: musi wygrywać z blokiem auto-palety wyżej
    (ten dawał chłodny błękit #477598 i prawie białe tło #F9FAFB).
-   Kontrasty policzone: tekst 12,5:1 · tekst poboczny 4,5-5,6:1 · biały na
+   Kontrasty policzone: tekst 11,2-13,9:1 · tekst poboczny 4,99-6,17:1 · biały na
    oliwkowym 6,6:1 · biały na stopce 12,9:1 - wszystko ponad normą WCAG.
    ============================================================ */
 :root{
-  /* TŁA - krem zamiast bieli */
-  --paper:#F3EFE5;            /* główne tło strony (krem z palety) */
-  --paper-2:#E9E3D5;          /* sekcje alternatywne: zaufanie, manifest, CTA */
-  --paper-3:#DFD8C8;          /* delikatne wypełnienia */
-  --card:#FBF8F1;             /* dawne białe karty - krem prawie biały */
+  /* TŁA - krem zamiast bieli.
+     13.08.2026 (doprecyzowanie Agaty: „ten beżowy ma być prawie jak biały"):
+     główne tło rozjaśnione o stopień - zostaje ciepłe, ale znacznie bliżej bieli,
+     a krem z palety #F3EFE5 zszedł na sekcje alternatywne, żeby strona nadal
+     „oddychała" pasami, tylko delikatniej. */
+  --paper:#FAF7F0;            /* główne tło strony - beż prawie biały */
+  --paper-2:#F3EFE5;          /* sekcje alternatywne: krem z palety klientki */
+  --paper-3:#E9E3D5;          /* delikatne wypełnienia */
+  --card:#FDFBF5;             /* karty i formularz - najjaśniejszy, ale ciepły (zero ostrej bieli) */
 
   /* TEKST - ciepły grafit zamiast chłodnego */
   --ink:#2B2A24;
@@ -1532,7 +1536,7 @@ footer{view-transition-name:mt-foot}
 .btn-light,
 .form input:focus,
 .form textarea:focus{background:var(--card)}
-.hero-badge{background:rgba(251,248,241,.94)}
+.hero-badge{background:rgba(253,251,245,.94)}
 
 /* brąz z palety jako drugi kolor - kreska nad kartami zaufania */
 .trust-card{border-top-color:var(--brown)}
