@@ -1693,9 +1693,6 @@ footer{view-transition-name:mt-foot}
   background:var(--accent-d);border-color:var(--accent-d);color:#fff;
   filter:brightness(1.1);
   box-shadow:0 0 0 3px var(--accent-soft),0 8px 20px -14px rgba(0,0,0,.5)}
-/* CTA w pasku to przycisk, nie link menu — podkreślenie rosnące spod linków
-   przyklejało się do jego napisu (zgłaszała to też bramka wyglądu) */
-.nav-links a.btn::after{display:none}
 /* przycisk w pasku dostawał 4 px odstępu z reguły dla linków menu (bije .btn
    specyficznością), przez co napis kleił się do krawędzi klocka - lekcja 2026-08-06-012 */
 .nav .nav-links a.btn{padding:12px 20px}
@@ -1722,3 +1719,16 @@ footer{view-transition-name:mt-foot}
 /* numer telefonu w wierszu kontaktowym zmieniał kolor natychmiast (0 s) - jedyne
    miejsce, gdzie coś jeszcze „strzelało"; tempo takie samo jak wszędzie */
 .info-row a.val{transition:color var(--cta-dur) var(--cta-ease)}
+
+/* CTA w pasku dostaje TEN SAM przelatujący błysk co pozostałe przyciski
+   (K. 13.08: „na hero światło przechodzi przez przycisk, na navbarze nie").
+   `.nav-links a::after` (podkreślenie linków menu) jest silniejsze od `.btn::after`,
+   więc zerujemy jego geometrię i wpisujemy połysk z nazwy. */
+.nav .nav-links a.btn::after{
+  display:block;content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  inset:0;width:auto;height:auto;border-radius:inherit;   /* kasuje geometrię podkreślenia (width:0;height:1.5px) */
+  background:linear-gradient(100deg,transparent 32%,rgba(255,255,255,.20) 50%,transparent 68%);
+  translate:-120% 0}
+@media (prefers-reduced-motion:no-preference){
+  .nav .nav-links a.btn:hover::after{translate:120% 0;transition:translate .75s var(--mt-ease,cubic-bezier(.16,.84,.44,1))}
+}
