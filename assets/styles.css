@@ -1585,3 +1585,87 @@ footer{view-transition-name:mt-foot}
 .btn-ghost:focus-visible{border-color:var(--accent);color:var(--accent)}
 .cta .btn-ghost-cta:hover,
 .cta .btn-ghost-cta:focus-visible{border-color:var(--accent);color:var(--accent)}
+
+/* ============================================================
+   JEDNA ANIMACJA NA WSZYSTKICH KLOCKACH - v2 (Agata, 13.08.2026 wieczorem)
+   Poprzednie podejście ujednoliciło tylko PRZYCISKI (.btn) - karty „Krok 01/02/03"
+   dalej podskakiwały o 4 px, zalewały się oliwką i wysuwały kreskę z lewej, więc
+   na stronie żyły trzy różne animacje naraz. Stąd „tylko klocek u góry ma tę
+   animację, reszta mnie irytuje".
+   WZORZEC (jeden dla wszystkiego, co nie jest zdjęciem): klocek STOI w miejscu
+   i tylko się PODŚWIETLA - obwódka w kolorze akcentu + ramka w akcencie +
+   ledwie wyczuwalne rozjaśnienie. Zero unoszenia, zero jeżdżących strzałek,
+   zero kreski wyskakującej z boku, zero zalewania tłem.
+   Zdjęcia (.tile/.gateway/.m-tile) świadomie zostają z powolnym zoomem 1.05/1.4s
+   - to kadr, nie klocek, i standard ustalony 09.08.
+   Blok na SAMYM KOŃCU pliku: ma wygrywać ze wszystkim wyżej.
+   ============================================================ */
+:root{
+  --hl-ring:color-mix(in srgb,var(--accent) 32%,transparent);  /* obwódka - widoczna, ale nie krzyczy */
+  --hl-dur:.42s;
+}
+
+/* --- 1) NIC SIĘ NIE RUSZA (tylko w stanie najechania - spoczynek zostawiamy
+       nietknięty, bo tam siedzi animacja odsłaniania sekcji) --- */
+.btn:hover,.btn:focus-visible,.btn:active,
+.card:hover,.svc:hover,.menu-cat:hover,.prod-card:hover,.pak-card:hover,
+.faq-item:hover,.obj-tile:hover,.gateway-txt:hover,.trust-card:hover,
+.op-google:hover,.op-google:focus-visible,
+.sticky-reserve a:hover,.sticky-reserve a:active{
+  transform:none;
+  translate:0 0;
+}
+/* strzałki stoją - to była druga, osobna animacja */
+.btn:hover .arr,.card:hover .arr,.svc:hover .arr,.menu-cat:hover .arr,
+.op-google:hover .arr,.gateway-txt:hover .arr{transform:none}
+/* kreska wyskakująca z lewej krawędzi karty - kasujemy, nie należy do wzorca */
+.card:hover::before,.menu-cat:hover::before,
+.prod-card:hover::before,.pak-card:hover::before{transform:scaleY(0)}
+.svc:hover::before{height:0}
+
+/* --- 2) TO SAMO PODŚWIETLENIE NA KAŻDYM KLOCKU --- */
+.btn,.card,.svc,.menu-cat,.prod-card,.pak-card,.faq-item,.obj-tile,
+.gateway-txt,.trust-card,.op-google,.sticky-reserve a{
+  transition:box-shadow var(--hl-dur) var(--cta-ease),
+             border-color var(--hl-dur) var(--cta-ease),
+             filter var(--hl-dur) var(--cta-ease),
+             background var(--hl-dur) var(--cta-ease),
+             color var(--hl-dur) var(--cta-ease);
+}
+@media(hover:hover){
+  .btn:hover,.btn:focus-visible,
+  .card:hover,.svc:hover,.menu-cat:hover,.prod-card:hover,.pak-card:hover,
+  .faq-item:hover,.obj-tile:hover,.gateway-txt:hover,.trust-card:hover,
+  .op-google:hover,.op-google:focus-visible,
+  .sticky-reserve a:hover,.sticky-reserve a:focus-visible{
+    box-shadow:0 0 0 3px var(--hl-ring);
+    border-color:var(--accent);
+    filter:brightness(1.06);
+  }
+  /* karty jasne miały jeszcze zalewanie tłem - wracamy do własnego tła karty */
+  .card:hover,.menu-cat:hover,.prod-card:hover,.pak-card:hover,.svc:hover{
+    background:var(--card,var(--paper))}
+}
+/* zielony przycisk PODŚWIETLA się, a nie ciemnieje - dotąd tło szło na accent-d
+   i zjadało rozjaśnienie, więc ten sam kod dawał wizualnie inny efekt */
+.btn-accent:hover,.btn-accent:focus-visible{background:var(--accent)}
+/* przezroczyste przyciski: rozjaśnienie ich nie ruszy, więc niesie to ramka i tekst */
+.btn-ghost:hover,.btn-ghost:focus-visible,
+.cta .btn-ghost-cta:hover,.cta .btn-ghost-cta:focus-visible{
+  border-color:var(--accent);color:var(--accent)}
+
+/* dwa klocki miały własne reguły o wyższej sile i wyłamywały się ze wzorca:
+   1) karty „Krok 01/02/03" - warstwa ruchu (.mt-on) unosiła je mimo zakazu wyżej,
+   2) CTA w pasku górnym - miało własny, starszy zestaw podświetlenia.
+   Teraz oba grają dokładnie tak samo jak reszta. */
+.mt-on .svc:hover{transform:none}
+.nav .nav-links a.btn-accent:hover,
+.nav .nav-links a.btn-accent:focus-visible{
+  background:var(--accent);
+  box-shadow:0 0 0 3px var(--hl-ring);
+  border-color:var(--accent);
+  filter:brightness(1.06);
+}
+/* CTA w pasku to przycisk, nie link menu - podkreślenie rosnące spod linków
+   przyklejało się do jego tekstu (bramka: „tekst przyklejony do linii") */
+.nav-links a.btn::after{display:none}
